@@ -1,0 +1,1207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<title>Growth Audit — Lifesum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: only light;
+  /* ---- Lifesum, extracted from their live screens ---- */
+  --ls-cream:#FAF0EA; --ls-cream2:#EFE2D8; --ls-card:#FFFFFF; --ls-line:#E3D8D0; --ls-prog:#E0D4CB;
+  --ls-green:#35E06A; --ls-green-ink:#0B2B18; --ls-check:#0A7D35; --ls-sel:#F3FFF6; --ls-cmphead:#F4EBE4;
+  --ls-forest:#0A3A2A; --ls-neon:#3DFF6E; --ls-lilac:#F0B9F5;
+  --ls-ink:#0D1512; --ls-txt:#3E4844; --ls-muted:#6F6A66; --ls-strike:#A79C94; --ls-dot:#CFC3BA;
+  --r-ctl:8px; --r-media:16px;
+  /* ---- the report shell, in Lifesum's own palette ---- */
+  --bg:#FAF0EA; --bg2:#FFFFFF; --surf:#FFFFFF;
+  --hair:rgba(13,21,18,.09); --hair2:rgba(13,21,18,.16);
+  --ink:#0D1512; --ink2:#3E4844; --ink3:#7A736E;
+  --accent:#35E06A; --on-accent:#0B2B18; --accent-lift:#0E7A36;
+  --panel:#FFFFFF; --panel-ink:#15181B; --panel-muted:#5F666D; --panel-line:#E9ECEF;
+  --accent-ink:#0A6B2F;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);
+  font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+@media(max-width:700px){.wrap{padding:0 20px}}
+
+/* ============ top bar ============ */
+.nav{position:sticky;top:0;z-index:70;background:rgba(250,240,234,.86);backdrop-filter:blur(18px) saturate(160%);
+  border-bottom:1px solid var(--hair)}
+.nav-in{max-width:1080px;margin:0 auto;padding:0 32px;height:58px;display:flex;align-items:center;gap:18px}
+@media(max-width:700px){.nav-in{padding:0 16px;gap:12px}}
+.nav-brand{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;letter-spacing:-.01em}
+.nav-brand img{width:26px;height:26px;flex:none;display:block;border-radius:7px}
+.nav-brand span{color:var(--ink2);font-weight:500}
+.nav-brand b{color:var(--ink);font-weight:600}
+.nav-links{margin-left:auto;display:flex;gap:2px;align-items:center}
+.nav-links button{padding:7px 14px;border-radius:8px;font-size:13px;font-weight:600;color:var(--ink3);transition:.16s}
+.nav-links button:hover{color:var(--ink)}
+.nav-links button.on{color:var(--ink);background:#fff;box-shadow:0 1px 4px rgba(13,21,18,.08)}
+@media(max-width:640px){.nav-brand span{display:none}}
+
+.view{display:none}
+.view.on{display:block}
+
+/* ============ hero ============ */
+.hero{padding:104px 0 0;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-340px;left:50%;transform:translateX(-50%);
+  width:1100px;height:640px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(53,224,106,.20),transparent 72%)}
+.hero::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(40% 50% at 8% 20%,rgba(240,185,245,.34),transparent 70%),
+   radial-gradient(38% 45% at 92% 18%,rgba(96,100,240,.13),transparent 70%)}
+.hero>*{position:relative;z-index:1}
+.eyebrow{font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-lift);margin-bottom:26px}
+.hero h1{font-size:76px;line-height:.98;font-weight:700;letter-spacing:-.045em;margin:0 0 24px}
+@media(max-width:820px){.hero h1{font-size:50px}.hero{padding-top:70px}}
+.hero .lede{font-size:20px;line-height:1.5;font-weight:400;color:var(--ink2);max-width:660px;margin:0 auto;letter-spacing:-.012em}
+@media(max-width:820px){.hero .lede{font-size:17px}}
+.hero .meta{margin-top:30px;font-size:12.5px;color:var(--ink3);letter-spacing:.02em}
+.hero .meta b{color:var(--ink2);font-weight:600}
+
+.stats{display:flex;justify-content:center;gap:0;margin:70px auto 0;max-width:760px;
+  border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.stat{flex:1;padding:26px 14px;text-align:center;border-left:1px solid var(--hair)}
+.stat:first-child{border-left:none}
+.stat b{display:block;font-size:26px;font-weight:700;letter-spacing:-.03em;color:var(--ink)}
+.stat span{display:block;font-size:11.5px;color:var(--ink3);margin-top:5px;line-height:1.35}
+@media(max-width:700px){.stat b{font-size:19px}.stat{padding:18px 8px}}
+
+.fb{max-width:760px;margin:0 auto;padding:30px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:26px;text-align:left}
+@media(max-width:700px){.fb{grid-template-columns:1fr;gap:20px;padding-top:24px}}
+.fb-k{grid-column:1/-1;font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink3);text-align:center;margin-bottom:-6px}
+.fb-i{display:flex;gap:12px;align-items:flex-start}
+.fb-i .tick{width:18px;height:18px;flex:none;margin-top:3px;border-radius:50%;background:rgba(53,224,106,.2);
+  display:grid;place-items:center}
+.fb-i .tick svg{width:10px;height:10px;stroke:var(--accent-lift);stroke-width:3;fill:none;
+  stroke-linecap:round;stroke-linejoin:round}
+.fb-i p{font-size:14px;line-height:1.55;color:var(--ink2);margin:0}
+.fb-i p b{color:var(--ink);font-weight:700}
+
+.sec{padding:96px 0}
+.sec-k{font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);margin-bottom:18px}
+.sec h2{font-size:38px;line-height:1.14;font-weight:700;letter-spacing:-.035em;margin:0 0 20px;max-width:680px}
+@media(max-width:820px){.sec h2{font-size:29px}.sec{padding:64px 0}}
+.sec p.body{font-size:17px;line-height:1.66;color:var(--ink2);max-width:640px;margin:0 0 18px;letter-spacing:-.008em}
+.sec p.body b{color:var(--ink);font-weight:600}
+.rule{height:1px;background:var(--hair);margin:0}
+
+.notes{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px;max-width:820px}
+@media(max-width:760px){.notes{grid-template-columns:1fr}}
+.note{background:var(--surf);border:1px solid var(--hair);box-shadow:0 2px 10px rgba(13,21,18,.04);border-radius:16px;padding:24px 26px}
+.note h4{font-size:15px;font-weight:700;letter-spacing:-.015em;margin:0 0 8px}
+.note p{font-size:14px;line-height:1.6;color:var(--ink2);margin:0}
+
+.ideas{display:flex;flex-direction:column;gap:0;margin-top:14px;border-top:1px solid var(--hair)}
+.idea{display:grid;grid-template-columns:52px 1fr 180px;gap:26px;align-items:start;
+  padding:30px 4px;border-bottom:1px solid var(--hair);text-align:left;width:100%;transition:.18s}
+.idea:hover{background:rgba(255,255,255,.6)}
+@media(max-width:780px){.idea{grid-template-columns:38px 1fr;gap:16px}}
+.idea .no{font-size:13px;font-weight:700;color:var(--ink3);padding-top:4px;letter-spacing:.02em}
+.idea h3{font-size:21px;line-height:1.25;font-weight:700;letter-spacing:-.024em;margin:0 0 7px}
+@media(max-width:820px){.idea h3{font-size:18px}}
+.idea p{font-size:14.5px;line-height:1.6;color:var(--ink2);margin:0;max-width:540px}
+.idea .out{text-align:right;padding-top:3px}
+@media(max-width:780px){.idea .out{grid-column:2;text-align:left;padding-top:12px}}
+.idea .out b{display:block;font-size:19px;font-weight:700;letter-spacing:-.025em;color:var(--accent-lift);white-space:nowrap}
+.idea .out span{display:block;font-size:10.5px;color:var(--ink3);margin-top:3px;letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+.idea .seeit{display:inline-flex;align-items:center;gap:5px;margin-top:11px;font-size:12.5px;
+  font-weight:600;color:var(--accent-lift)}
+.idea .seeit svg{width:12px;height:12px}
+
+.band{background:var(--surf);border:1px solid var(--hair);border-radius:28px;box-shadow:0 2px 10px rgba(13,21,18,.04);padding:40px 44px;margin-top:44px;
+  display:flex;align-items:center;gap:36px;flex-wrap:wrap}
+@media(max-width:700px){.band{padding:28px 24px;gap:22px}}
+.band .lab{font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
+.band .txt{flex:1;min-width:240px}
+.band .txt p{font-size:15.5px;line-height:1.6;color:var(--ink2);margin:0}
+.band .nums{display:flex;gap:34px}
+.band .nums div b{display:block;font-size:30px;font-weight:700;letter-spacing:-.035em;color:var(--accent-lift)}
+.band .nums div span{display:block;font-size:11px;color:var(--ink3);margin-top:2px;letter-spacing:.04em;
+  text-transform:uppercase;font-weight:600}
+
+.cta-row{display:flex;justify-content:center;align-items:center;gap:22px;flex-wrap:wrap;margin-top:52px}
+.bigbtn{display:inline-flex;align-items:center;gap:9px;background:var(--accent);color:var(--on-accent);
+  font-size:15px;font-weight:700;letter-spacing:-.01em;padding:15px 26px;border-radius:30px;transition:.16s}
+.bigbtn:hover{filter:brightness(1.05)}
+.bigbtn svg{width:15px;height:15px}
+
+.foot{border-top:1px solid var(--hair);padding:36px 0 70px;font-size:12.5px;line-height:1.6;color:var(--ink3)}
+
+.herobtns{display:flex;justify-content:center;margin-top:30px}
+.ghostbtn{display:inline-flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--hair2);color:var(--ink);font-size:14px;
+  font-weight:700;padding:9px 20px 9px 9px;border-radius:30px;box-shadow:0 2px 12px rgba(13,21,18,.06);transition:.16s}
+.ghostbtn:hover{box-shadow:0 4px 18px rgba(13,21,18,.1)}
+.ghostbtn .pl{width:30px;height:30px;border-radius:50%;background:var(--accent);display:grid;place-items:center}
+.ghostbtn .pl svg{width:12px;height:12px;fill:var(--on-accent);margin-left:2px}
+
+/* ============ prototype stage ============ */
+.stage{display:grid;grid-template-columns:minmax(440px,1fr) minmax(400px,470px);gap:0;
+  align-items:start;min-height:calc(100vh - 58px)}
+@media(max-width:1080px){.stage{grid-template-columns:1fr}}
+.phonecol{padding:34px 24px 46px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.panelcol{border-left:1px solid var(--hair);background:var(--panel);color:var(--panel-ink);
+  min-height:calc(100vh - 58px);position:sticky;top:58px;max-height:calc(100vh - 58px);overflow-y:auto}
+@media(max-width:1080px){.panelcol{position:static;max-height:none;border-left:none;border-top:1px solid var(--hair)}}
+
+.phone{position:relative;width:390px;height:844px;flex:none;background:#000;border:11px solid #000;
+  border-radius:46px;box-shadow:0 0 0 1.5px #E3D8D0,0 34px 70px -22px rgba(13,21,18,.35)}
+.phone-in{position:absolute;inset:0;border-radius:36px;overflow:hidden;background:var(--ls-cream);color-scheme:only light}
+.island{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:104px;height:30px;background:#000;
+  border-radius:16px;z-index:60;pointer-events:none}
+.sbar{position:absolute;top:0;left:0;right:0;height:50px;z-index:55;pointer-events:none;display:flex;
+  align-items:center;justify-content:space-between;padding:14px 28px 0 34px;font:600 14px/1 'Inter',sans-serif;color:var(--ls-ink);transition:color .3s}
+.sbar.light{color:#fff}
+.sbar .glyphs{display:flex;gap:5px;align-items:center}
+.homebar{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);width:134px;height:5px;
+  border-radius:3px;background:#111;z-index:56;pointer-events:none;transition:background .3s}
+.homebar.light{background:rgba(255,255,255,.9)}
+.screenwrap{position:absolute;inset:0;overflow:hidden;background:var(--ls-cream)}
+
+/* ============ phone screens — Lifesum's system, all prefixed scr-/ls- ============ */
+.scr{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--ls-cream);color:var(--ls-ink);
+  font-family:'Inter',-apple-system,sans-serif;font-size:14px;line-height:1.5;
+  transform:translateX(100%);transition:transform .36s cubic-bezier(.32,.72,0,1);z-index:10;will-change:transform}
+.scr.is-active{transform:translateX(0);z-index:20}
+.scr.is-past{transform:translateX(-24%)}
+.scr.sheet{transform:translateY(100%)}
+.scr.sheet.is-active{transform:translateY(0);z-index:30}
+.scr.nofx{transition:none}
+.scr-top{flex:none;padding:56px 20px 10px;display:flex;align-items:center;gap:12px;position:relative;z-index:2}
+.scr-top.bare{padding-top:50px;padding-bottom:0}
+.scr-body{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:4px 20px 18px;scrollbar-width:none;position:relative;z-index:2}
+.scr-body::-webkit-scrollbar{display:none}
+.scr-body.dock{display:flex;flex-direction:column}
+.scr-body.dock .ls-dots{margin-top:auto;padding-top:22px}
+.scr-foot{flex:none;padding:10px 20px 30px;background:var(--ls-cream);position:relative;z-index:2}
+
+.ls-back{width:22px;height:22px;flex:none;display:grid;place-items:center;color:var(--ls-ink);opacity:.85}
+.ls-prog{flex:1;height:4px;border-radius:3px;background:var(--ls-prog);overflow:hidden}
+.ls-prog i{display:block;height:100%;background:var(--ls-ink);border-radius:3px}
+.ls-helper{font-size:11px;line-height:1.45;color:var(--ls-muted);text-align:center;margin-bottom:10px;padding:0 6px}
+
+.ls-h{font-family:'Plus Jakarta Sans';font-size:23px;line-height:1.24;font-weight:700;letter-spacing:-.022em;color:var(--ls-ink);margin:6px 0 16px}
+.ls-h.sm{font-size:20.5px}
+.ls-sub{font-size:13.5px;line-height:1.5;color:var(--ls-txt);margin:-8px 0 16px}
+
+.ls-btn{display:block;width:100%;padding:15px 12px;border-radius:var(--r-ctl);
+  background:var(--ls-green);color:var(--ls-green-ink);
+  font:700 12.5px/1.2 'Inter',sans-serif;letter-spacing:.09em;text-transform:uppercase;text-align:center;
+  transition:transform .12s ease, filter .12s ease}
+.ls-btn:active{transform:scale(.985);filter:brightness(.95)}
+.ls-btn.blk{background:#000;color:#fff;display:flex;align-items:center;justify-content:center;gap:9px}
+.ls-btn.out{background:var(--ls-card);color:var(--ls-ink);border:1px solid var(--ls-line);margin-top:8px}
+.ls-btn.ghost{background:transparent;color:var(--ls-muted);font-size:12px;letter-spacing:.04em;text-transform:none;font-weight:600;padding:12px}
+
+.ls-opt{display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  padding:14px;margin-bottom:8px;border-radius:var(--r-ctl);
+  background:var(--ls-card);border:1px solid var(--ls-line);
+  font:500 14px/1.3 'Inter',sans-serif;color:var(--ls-ink);transition:background .14s ease,border-color .14s ease}
+.ls-opt.on{background:var(--ls-green);border-color:var(--ls-green);font-weight:600;color:var(--ls-green-ink)}
+.ls-opt .ls-tk{margin-left:auto;opacity:0;transition:opacity .14s}
+.ls-opt.on .ls-tk{opacity:1}
+
+/* wheel picker — their signature control, real scroll-snap */
+.ls-wheel{position:relative;height:190px;margin:18px 0 10px;display:flex;justify-content:center}
+.ls-wbar{position:absolute;left:0;right:0;top:76px;height:38px;background:var(--ls-cream2);border-radius:9px;pointer-events:none}
+.ls-wcol{height:190px;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;position:relative;z-index:2;
+  text-align:center;flex:1;max-width:120px}
+.ls-wcol::-webkit-scrollbar{display:none}
+.ls-wcol .ls-sp{height:76px}
+.ls-wi{height:38px;line-height:38px;scroll-snap-align:center;font:500 17px/38px 'Inter',sans-serif;color:var(--ls-ink);
+  opacity:.22;transition:opacity .16s ease;white-space:nowrap}
+.ls-wi.d1{opacity:.42}
+.ls-wi.d0{opacity:1;font-weight:600}
+
+/* intro */
+.ls-media{width:100%;border-radius:var(--r-media);overflow:hidden;position:relative;background:#DCD2CB;aspect-ratio:1/1}
+.ls-media img{width:100%;height:100%;object-fit:cover;display:block}
+.ls-callout{position:absolute;left:10px;bottom:10px;right:34px;background:#fff;border-radius:10px;
+  padding:9px 11px;font-size:11.5px;line-height:1.4;font-weight:500;color:#0D1512;
+  box-shadow:0 6px 18px rgba(0,0,0,.14);display:flex;gap:7px;align-items:flex-start}
+.ls-callout svg{flex:none;margin-top:2px}
+.ls-fab{position:absolute;top:12px;right:12px;width:44px;height:44px;border-radius:12px;background:var(--ls-forest);display:grid;place-items:center}
+.ls-dots{display:flex;gap:5px;justify-content:center;padding:14px 0 2px}
+.ls-dots i{width:6px;height:6px;border-radius:4px;background:var(--ls-dot)}
+.ls-dots i.on{width:18px;background:var(--ls-ink)}
+
+/* pace */
+.ls-pace{text-align:center;margin:auto 0}
+.ls-pace b{display:block;font-family:'Plus Jakarta Sans';font-size:26px;font-weight:800;letter-spacing:-.03em}
+.ls-pace span{display:block;font-size:12px;color:var(--ls-muted);margin-top:2px}
+.ls-pace input{width:100%;accent-color:#0A3A2A;margin-top:20px}
+
+/* loader (forest) */
+.scr--load,.scr--load .scr-foot{background:var(--ls-forest)}
+.scr--load .scr-body{color:#fff}
+.ls-pct{font-family:'Plus Jakarta Sans';font-size:88px;font-weight:800;letter-spacing:-.045em;color:var(--ls-neon);line-height:1;margin-top:24px}
+.ls-lines{margin-top:26px;display:flex;flex-direction:column;gap:10px}
+.ls-ll{display:flex;align-items:center;gap:9px;font-size:13px;color:rgba(255,255,255,.55);opacity:0;transform:translateY(5px);transition:.4s ease}
+.ls-ll.on{opacity:1;transform:none;color:rgba(255,255,255,.92)}
+.ls-ll .ck{width:16px;height:16px;border-radius:50%;border:1.5px solid rgba(255,255,255,.28);flex:none;display:grid;place-items:center}
+.ls-ll.on .ck{background:var(--ls-neon);border-color:var(--ls-neon)}
+.ls-ll b{font-weight:600;color:#fff}
+.ls-loadfoot{text-align:center;font-size:12.5px;color:var(--ls-neon);padding-bottom:6px}
+
+/* payoff */
+.ls-chart{height:140px;display:flex;flex-direction:column;margin:2px 0 16px}
+.ls-chart svg{width:100%;flex:1;min-height:0;overflow:visible}
+.ls-chart .ls-mo{flex:none;display:flex;justify-content:space-between;font-size:12px;color:var(--ls-muted);padding-top:8px}
+.ls-chart .dotc{fill:var(--ls-forest)}
+.ls-chart .pillr{fill:var(--ls-card);stroke:var(--ls-forest)}
+.ls-kick{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ls-muted);margin-bottom:6px}
+.ls-big{font-family:'Plus Jakarta Sans';font-size:44px;font-weight:800;letter-spacing:-.035em;color:var(--ls-ink);line-height:1}
+.ls-pill{display:inline-block;background:var(--ls-green);color:var(--ls-green-ink);border-radius:20px;padding:5px 12px;font-size:11.5px;font-weight:700;margin-top:9px}
+.ls-from{background:var(--ls-card);border:1px solid var(--ls-line);border-radius:12px;padding:13px;margin-top:14px}
+.ls-fy{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;padding:6px 0;border-bottom:1px dashed var(--ls-line)}
+.ls-fy:last-child{border-bottom:none}
+.ls-fy span{color:var(--ls-muted);flex:none}
+.ls-fy b{font-weight:600;color:var(--ls-ink);text-align:right}
+
+/* paywall */
+.ls-x{position:absolute;top:56px;right:18px;z-index:20;width:30px;height:30px;border-radius:50%;background:var(--ls-card);
+  display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,.1);color:var(--ls-ink)}
+.ls-payh{font-family:'Plus Jakarta Sans';font-size:21px;line-height:1.24;font-weight:700;letter-spacing:-.02em;color:var(--ls-ink);margin:0 44px 3px 0}
+.ls-goalchip{display:inline-flex;align-items:center;gap:6px;background:var(--ls-card);border:1px solid var(--ls-line);border-radius:20px;padding:5px 11px;font-size:11px;font-weight:600;color:var(--ls-ink);margin-bottom:6px}
+.ls-goalchip i{width:6px;height:6px;border-radius:50%;background:var(--ls-green);flex:none}
+.ls-claim{font-size:12.5px;color:var(--ls-txt);margin-bottom:8px}
+.ls-cmp{background:var(--ls-card);border:1px solid var(--ls-line);border-radius:12px;overflow:hidden}
+.ls-cmp .ch,.ls-cmp .cr{display:grid;grid-template-columns:1fr 50px 70px;align-items:center}
+.ls-cmp .ch{background:var(--ls-cmphead);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ls-muted)}
+.ls-cmp .ch div{padding:6px 10px;text-align:center}
+.ls-cmp .ch div:first-child{text-align:left}
+.ls-cmp .ch .pr{background:var(--ls-green);color:var(--ls-green-ink)}
+.ls-cmp .cr{border-top:1px solid var(--ls-line);font-size:12px}
+.ls-cmp .cr div{padding:6px 10px}
+.ls-cmp .cr div:first-child{color:var(--ls-ink);font-weight:500}
+.ls-cmp .cr div:not(:first-child){display:grid;place-items:center;color:var(--ls-muted)}
+.ls-cmp .cr .pr{background:rgba(53,224,106,.09)}
+.ls-cmp .cr .pr svg{stroke:var(--ls-check)}
+.ls-award{position:relative;border-radius:var(--r-media);overflow:hidden;height:90px;background:#1B1410;margin-top:8px}
+.ls-award img{width:100%;height:100%;object-fit:cover;opacity:.92;display:block}
+.ls-abar{position:absolute;top:0;left:0;right:0;display:flex;justify-content:center;gap:22px;padding:6px 10px;color:#fff;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:linear-gradient(rgba(0,0,0,.55),transparent)}
+.ls-abar div{display:flex;align-items:center;gap:5px;line-height:1.2;white-space:nowrap}
+.ls-aq{position:absolute;left:0;right:0;bottom:0;padding:6px 14px 8px;background:linear-gradient(transparent,rgba(0,0,0,.75));color:#fff}
+.ls-aq .st{color:#FFB400;font-size:10.5px;letter-spacing:1px;margin-right:4px}
+.ls-aq p{font-size:11.5px;line-height:1.35}
+.ls-aq cite{font-style:normal;font-size:10.5px;opacity:.8;display:block;margin-top:3px}
+.ls-offbar{background:var(--ls-green);color:var(--ls-green-ink);border-radius:8px;padding:8px;text-align:center;font-size:12.5px;font-weight:700;margin:8px 0 12px}
+.ls-plans{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;align-items:end}
+.ls-plan{background:var(--ls-card);border:1.5px solid var(--ls-line);border-radius:10px;padding:9px 5px 8px;text-align:center;position:relative;transition:.15s;color:var(--ls-ink);font-family:'Inter',sans-serif}
+.ls-plan .ls-pn{font-size:11px;font-weight:600;color:var(--ls-muted);margin-bottom:3px;line-height:1.25}
+.ls-plan .pp{font-family:'Plus Jakarta Sans';font-size:15.5px;font-weight:800;color:var(--ls-ink);letter-spacing:-.02em;line-height:1.2}
+.ls-plan .po{font-size:11px;color:var(--ls-strike);text-decoration:line-through;margin-top:1px}
+.ls-plan .pm{font-size:9.5px;color:var(--ls-muted);margin-top:5px;padding-top:5px;border-top:1px solid var(--ls-line);line-height:1.3}
+.ls-plan.on{border-color:var(--ls-green);background:var(--ls-sel);box-shadow:0 0 0 3px rgba(53,224,106,.16)}
+.ls-plan.on .pp{font-size:17px}
+.ls-plan .tag{position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--ls-green);color:var(--ls-green-ink);font-size:8.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;padding:3px 8px;border-radius:20px;white-space:nowrap}
+.ls-plan.tall{padding-top:13px;padding-bottom:11px}
+.ls-secured{display:flex;align-items:center;justify-content:center;gap:5px;font-size:9.5px;color:var(--ls-muted);margin-top:9px;text-align:center;line-height:1.35}
+.ls-secured svg{flex:none}
+.ls-legal{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ls-muted)}
+.ls-priv{text-align:center;font-size:10px;color:var(--ls-muted);text-decoration:underline;margin-top:4px}
+
+/* offer — trial timeline on the same annual SKU */
+.ls-tl{margin:4px 0 14px;position:relative;padding-left:28px}
+.ls-tl::before{content:'';position:absolute;left:8px;top:10px;bottom:16px;width:2px;background:linear-gradient(var(--ls-green),var(--ls-line))}
+.ls-tr{position:relative;padding:0 0 18px}
+.ls-tr .nd{position:absolute;left:-28px;top:2px;width:18px;height:18px;border-radius:50%;background:var(--ls-card);border:2px solid var(--ls-green);display:grid;place-items:center}
+.ls-tr .nd.grey{border-color:var(--ls-line)}
+.ls-tr .nd svg{stroke:var(--ls-check)}
+.ls-tr h5{font-size:13.5px;font-weight:700;color:var(--ls-ink);margin-bottom:2px}
+.ls-tr p{font-size:12px;line-height:1.45;color:var(--ls-txt)}
+.ls-obox{background:var(--ls-card);border:1.5px solid var(--ls-green);border-radius:12px;padding:13px;text-align:center;box-shadow:0 0 0 3px rgba(53,224,106,.14)}
+.ls-obox .k{font-size:11px;font-weight:600;color:var(--ls-muted);margin-bottom:4px;letter-spacing:.03em}
+.ls-obox .pp{font-family:'Plus Jakarta Sans';font-size:26px;font-weight:800;letter-spacing:-.03em;color:var(--ls-ink)}
+.ls-obox .s{font-size:11.5px;color:var(--ls-muted);margin-top:3px}
+.ls-down{text-align:center;font-size:12px;color:var(--ls-muted);margin-top:11px;text-decoration:underline;display:block;width:100%}
+
+/* account */
+.ls-field{margin-bottom:16px}
+.ls-field label{display:block;font-size:11px;color:var(--ls-muted);margin-bottom:4px}
+.ls-field input{width:100%;border:none;border-bottom:1px solid var(--ls-line);background:none;padding:6px 0;font:15px 'Inter',sans-serif;color:var(--ls-ink);outline:none}
+.ls-fine{font-size:10.5px;line-height:1.5;color:var(--ls-muted);text-align:center;margin-bottom:10px}
+.ls-fine u{text-underline-offset:2px}
+
+/* Apple Health soft prompt */
+.ls-field2{position:relative;height:170px;margin:2px 0 14px;border-radius:var(--r-media);overflow:hidden;
+  background:radial-gradient(circle at 50% 50%,#9BF5B8 0%,#DDF8E4 48%,var(--ls-cream) 80%)}
+.ls-tiles{display:flex;gap:9px;align-items:center;justify-content:center;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
+.ls-tile{width:50px;height:50px;border-radius:14px;background:#fff;display:grid;place-items:center;box-shadow:0 5px 16px rgba(0,0,0,.12);font-size:24px}
+.ls-tile.grey{background:#F1EDE9}
+.ls-tile.brand{background:var(--ls-forest)}
+
+/* dark mode — an approximation: no dark frames were supplied */
+.phone-in.dark{--ls-cream:#121417;--ls-cream2:#262B30;--ls-card:#1D2126;--ls-line:#2D3238;--ls-prog:#2A2E33;
+  --ls-sel:#15301F;--ls-cmphead:#23282D;--ls-ink:#F3F5F6;--ls-txt:#B7BEC4;--ls-muted:#8A9198;--ls-strike:#6D747B;--ls-dot:#3C4249;
+  background:var(--ls-cream)}
+.phone-in.dark .screenwrap{background:var(--ls-cream)}
+.phone-in.dark .ls-btn.blk{background:#F3F5F6;color:#0D1512}
+.phone-in.dark .ls-btn.blk svg{fill:#0D1512}
+.phone-in.dark .ls-opt.on{color:var(--ls-green-ink)}
+.phone-in.dark .ls-pace input{accent-color:var(--ls-green)}
+.phone-in.dark .ls-chart .dotc{fill:var(--ls-neon)}
+.phone-in.dark .ls-chart .pillr{stroke:var(--ls-green)}
+.phone-in.dark .ls-cmp .cr .pr svg{stroke:var(--ls-green)}
+.phone-in.dark .ls-tr .nd svg{stroke:var(--ls-green)}
+.phone-in.dark .ls-field2{background:radial-gradient(circle at 50% 50%,#1E6B3A 0%,#16301F 48%,var(--ls-cream) 80%)}
+.phone-in.dark .ls-tile.grey{background:#2A2F34}
+.phone-in.dark .ls-tile.grey svg{stroke:#DADDE0}
+.phone-in.dark .ls-x{box-shadow:0 2px 8px rgba(0,0,0,.4)}
+
+/* prototype toolbar, walkthrough, QR */
+.tools{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:520px}
+.seg{display:inline-flex;align-items:center;background:#fff;border:1px solid #E6DAD1;border-radius:20px;padding:3px;gap:2px}
+.seg button{padding:6px 11px;border-radius:16px;font:600 12px/1 'Plus Jakarta Sans',sans-serif;color:var(--ink2);transition:.14s}
+.seg button.on{background:var(--ink);color:#fff}
+.demo-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:20px;background:var(--accent);color:var(--on-accent);
+  font:700 12px/1 'Plus Jakarta Sans',sans-serif}
+.demo-cap{width:390px;max-width:calc(100vw - 24px);background:#fff;border:1px solid var(--hair);border-radius:16px;padding:14px 14px 12px;
+  display:flex;align-items:center;gap:12px;position:relative;overflow:hidden;box-shadow:0 4px 18px rgba(13,21,18,.07)}
+.demo-cap .bar{position:absolute;left:0;top:0;right:0;height:3px;background:#F1E8E2}
+.demo-cap .bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s linear}
+.demo-cap p{flex:1;font-size:13.5px;line-height:1.45;color:var(--ink);margin:0;font-weight:500}
+.demo-cap button{font:700 12px/1 'Plus Jakarta Sans',sans-serif;color:var(--ink2);padding:7px 10px;border-radius:12px;border:1px solid #E6DAD1;flex:none}
+.finger{position:absolute;z-index:90;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(13,21,18,.26);
+  border:2px solid rgba(255,255,255,.95);box-shadow:0 4px 14px rgba(0,0,0,.25);pointer-events:none;opacity:0;left:50%;top:60%;
+  transition:left .32s cubic-bezier(.4,0,.2,1),top .32s cubic-bezier(.4,0,.2,1),opacity .2s,transform .15s}
+.finger.show{opacity:1}
+.finger.press{transform:scale(.78);background:rgba(13,21,18,.4)}
+.qr{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--hair);border-radius:16px;padding:10px 16px 10px 10px;text-align:left}
+.qr img{width:135px;height:135px;display:block;image-rendering:pixelated;border-radius:6px}
+.qr span{font-size:12.5px;line-height:1.45;color:var(--ink2)}
+.qr b{display:block;color:var(--ink);font-size:13.5px}
+@media(max-width:1080px){.qr{display:none}}
+
+#view-proto .tools{order:0} #view-proto .demo-cap{order:1} #view-proto .phone{order:2} #view-proto .chips{order:3}
+#view-proto .chiphint{order:4} #view-proto .qr{order:5}
+.cta-row .qr{order:2}
+/* on a phone: the prototype is the screen */
+@media(max-width:500px){
+  #view-proto .phonecol{padding:0 0 28px;gap:14px}
+  #view-proto .phone{width:100vw;height:calc(100svh - 58px);min-height:640px;border:0;border-radius:0;box-shadow:none;order:1}
+  #view-proto .phone-in{border-radius:0}
+  #view-proto .island,#view-proto .sbar,#view-proto .homebar{display:none}
+  #view-proto .scr-top{padding-top:16px}
+  #view-proto .scr-top.bare{padding-top:12px}
+  #view-proto .scr-foot{padding-bottom:18px}
+  #view-proto .ls-x{top:14px}
+  #view-proto .tools{order:3;padding:0 12px}
+  #view-proto .demo-cap{position:fixed;left:12px;right:12px;bottom:12px;width:auto;max-width:none;z-index:95}
+  #view-proto .chips{order:4;padding:0 12px}
+  #view-proto .chiphint{order:5;padding:0 16px}
+}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:470px;margin:0 auto}
+.chip{padding:7px 13px;border-radius:20px;border:1px solid #E6DAD1;background:#fff;
+  font:600 12px/1 'Plus Jakarta Sans',sans-serif;color:var(--ink2);transition:.14s}
+.chip:hover{color:var(--ink);border-color:#CDBFB4}
+.chip.offer{border-style:dashed;border-color:var(--accent-lift);color:var(--accent-lift)}
+.chip.on{background:var(--accent);border-color:var(--accent);color:var(--on-accent);border-style:solid}
+.chiphint{text-align:center;font-size:11px;color:var(--ink3);margin:0;max-width:430px}
+
+/* ============ the short panel ============ */
+.pn{padding:30px 30px 60px}
+.pn-n{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink)}
+.pn-n.ctx{color:var(--panel-muted)}
+.pn-t{font-size:23px;line-height:1.18;font-weight:700;letter-spacing:-.028em;margin:8px 0 0;color:var(--panel-ink)}
+.pn-hyp{font-size:15px;line-height:1.62;color:#2E353B;margin:16px 0 0}
+.pn-hyp b{font-weight:700;color:var(--panel-ink)}
+.pn-out{margin-top:22px;border-top:1px solid var(--panel-line);padding-top:18px}
+.pn-out .lab{font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--panel-muted)}
+.pn-out .v{font-size:31px;font-weight:700;letter-spacing:-.035em;color:var(--accent-ink);margin-top:7px;line-height:1}
+.pn-kept{margin-top:22px;font-size:12.5px;line-height:1.55;color:var(--panel-muted)}
+.pn-kept b{color:#2E353B;font-weight:700}
+.pn-foot{font-size:11.5px;line-height:1.55;color:var(--panel-muted);border-top:1px solid var(--panel-line);
+  padding-top:14px;margin-top:26px}
+.hidden{display:none !important}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-in">
+    <div class="nav-brand">
+      <img src="img/icon.png" alt="Lifesum">
+      <b>Growth Audit</b><span>· Lifesum</span>
+    </div>
+    <div class="nav-links">
+      <button class="on" data-view="over">Overview</button>
+      <button data-view="proto">Prototype</button>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= OVERVIEW ======================= -->
+<div class="view on" id="view-over">
+
+<div class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Growth Audit · September 2026</div>
+    <h1>Lifesum</h1>
+    <p class="lede">Five ideas to unlock more revenue from the traffic you already have.</p>
+    <div class="meta">Prepared by <b>Adapty</b> · based on your live iOS flow and your App Store listing</div>
+    <div class="herobtns"><button class="ghostbtn" data-demo><span class="pl"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z"/></svg></span>Watch the 30-second walkthrough</button></div>
+    <div class="stats">
+      <div class="stat"><b>30,000+</b><span>apps run subscriptions<br>on Adapty</span></div>
+      <div class="stat"><b>5</b><span>ideas, each rebuilt<br>as a working screen</span></div>
+      <div class="stat"><b>0</b><span>design changes<br>to your art direction</span></div>
+    </div>
+
+    <div class="fb">
+      <div class="fb-k">Built in Adapty Flow Builder</div>
+      <div class="fb-i">
+        <span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <p><b>Millions of dollars</b> in subscription revenue pass through Flow Builder every month.</p>
+      </div>
+      <div class="fb-i">
+        <span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <p><b>Nearly 500 apps</b> actively build their paywalls and onboarding in it — plenty of them past $100K MRR.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="wrap">
+    <div class="sec-k">What this is</div>
+    <h2>We went through Lifesum the way a new user does, then rebuilt the parts we think are leaving money on the table.</h2>
+    <p class="body">Adapty powers subscriptions for <b>30,000+ apps</b>, so we see what moves conversion and ARPU across the market rather than inside one app. We pointed that at Lifesum: installed it, walked the first run from the intro to the paywall, read your App Store listing in the US, Swedish and German stores, and looked for gaps between what you already have and what you show people.</p>
+    <p class="body">What follows is five ideas, not fifteen. Each one is a hypothesis you can A/B test, and each one is built into a clickable prototype so you can see it rather than imagine it. <b>The prototype uses your design, not ours.</b></p>
+
+    <div class="notes">
+      <div class="note">
+        <h4>We did not redesign your app</h4>
+        <p>Every screen in the prototype is yours: the cream surface, the green buttons, the wheel pickers, the forest-green loader, the Free vs Premium table. Only the order changed, plus a few things you already own but do not show at the right moment.</p>
+      </div>
+      <div class="note">
+        <h4>You may have tested some of this</h4>
+        <p>We are working from the outside, so we cannot see your experiment history. If one of these is something you have already run, tell us and we will go deeper on the rest rather than repeat it.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="rule"></div>
+
+<div class="sec">
+  <div class="wrap">
+    <div class="sec-k">The five ideas</div>
+    <h2>Ranked by what we would test first.</h2>
+    <p class="body">Each one links straight to the screen in the prototype.</p>
+
+    <div class="ideas">
+      <button class="idea" data-jump="offer">
+        <span class="no">01</span>
+        <span>
+          <h3>Offer the free trial when they close the paywall</h3>
+          <p>Apple lists all three Premium plans with a free trial, but none of your onboarding screens mentions one. The moment someone closes the paywall is the place to offer it: the same $49.99 year, nothing charged today.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>ARPU +10–15%</b><span>second chance</span></span>
+      </button>
+
+      <button class="idea" data-jump="payoff">
+        <span class="no">02</span>
+        <span>
+          <h3>Show the plan before asking for an account</h3>
+          <p>Today the loader ends on “Your personalized plan is ready”, then asks for an email and a sign-up before showing it. Let the plan and the paywall come first, and save the account for after the purchase.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +8% · ARPU +17%</b><span>to purchase</span></span>
+      </button>
+
+      <button class="idea" data-jump="paywall">
+        <span class="no">03</span>
+        <span>
+          <h3>Put their goal and date in the paywall headline</h3>
+          <p>The flow collects a goal, a target weight and a pace, and works out the date they get there. The paywall headline uses none of it. “Reach 50 kg by 17 Nov” says what the $49.99 is for.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +15–20%</b><span>to purchase</span></span>
+      </button>
+
+      <button class="idea" data-jump="health">
+        <span class="no">04</span>
+        <span>
+          <h3>Ask for Apple Health after the purchase</h3>
+          <p>The Health prompt and the iOS permission sheet come at step six, before the app has shown anything worth syncing. Keep both screens exactly as they are and move them past the paywall.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +10–15%</b><span>to purchase</span></span>
+      </button>
+
+      <button class="idea" data-jump="loader">
+        <span class="no">05</span>
+        <span>
+          <h3>Let the loader read their answers back</h3>
+          <p>Your forest-green loader counts to 100% and says nothing about the person. Tick off their goal, their target, their pace and the habit they find hardest while the number climbs.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +10–15%</b><span>to purchase</span></span>
+      </button>
+    </div>
+
+    <div class="band">
+      <div class="txt">
+        <div class="lab">Potential outcome</div>
+        <p>All five work on the same minute of the flow: from the last question to the first payment, and what happens when someone says no.</p>
+      </div>
+      <div class="nums">
+        <div><b>up to +25%</b><span>CR to purchase</span></div>
+        <div><b>up to +30%</b><span>ARPU</span></div>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <div class="qr"><img src="img/qr.svg?v=1" alt="QR code for the prototype"><span><b>Or open it on your phone</b>Scan to try the flow in your hand.</span></div>
+      <button class="bigbtn" data-view="proto">Open the prototype
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="foot">
+  <div class="wrap">
+    Impact ranges are Adapty's expected effect from teardowns and A/B tests across subscription apps — not measured lift for Lifesum. Every price, rating, award, quote and feature line here and in the prototype comes from Lifesum's own App Store listing, website and in-app screens; the photography is Lifesum's own.
+  </div>
+</div>
+</div><!-- /view-over -->
+
+<!-- ======================= PROTOTYPE ======================= -->
+<div class="view" id="view-proto">
+<div class="stage">
+  <div class="phonecol">
+    <div class="tools">
+      <div class="seg" id="segLang"><button data-lang="en" class="on">EN</button><button data-lang="sv">SV</button><button data-lang="de">DE</button></div>
+      <div class="seg" id="segTheme"><button data-theme="light" class="on">Light</button><button data-theme="dark">Dark</button></div>
+      <button class="demo-btn" id="demoBtn"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><path d="M7 4.5v15l12-7.5z"/></svg>30-sec walkthrough</button>
+    </div>
+    <div class="phone">
+      <div class="phone-in" id="phoneIn">
+        <div class="island"></div>
+        <div class="sbar" id="sbar">
+          <span>9:41</span>
+          <span class="glyphs">
+            <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7.5" width="3" height="3.5" rx="1"/><rect x="4.5" y="5.5" width="3" height="5.5" rx="1"/><rect x="9" y="3" width="3" height="8" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+            <svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor"><path d="M8 10.5 5.6 7.9a3.4 3.4 0 0 1 4.8 0L8 10.5Zm0-5.6a6.4 6.4 0 0 0-4.5 1.9L1.7 4.9a9 9 0 0 1 12.6 0l-1.8 1.9A6.4 6.4 0 0 0 8 4.9Z"/></svg>
+            <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x=".6" y=".6" width="20" height="10.8" rx="3" stroke="currentColor" stroke-opacity=".5"/><rect x="2.2" y="2.2" width="16.5" height="7.6" rx="1.8" fill="currentColor"/><path d="M22.3 4.1v3.8a2 2 0 0 0 0-3.8Z" fill="currentColor" fill-opacity=".5"/></svg>
+          </span>
+        </div>
+        <div class="homebar" id="homebar"></div>
+        <div class="finger" id="finger"></div>
+        <div class="screenwrap">
+
+<!-- INTRO -->
+<section class="scr" data-id="intro">
+  <div class="scr-top bare"></div>
+  <div class="scr-body dock">
+    <div class="ls-media">
+      <img src="img/p-cook.jpg" alt="">
+      <div class="ls-fab"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" fill="#35E06A"/></svg></div>
+      <div class="ls-callout"><svg width="11" height="11" viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" fill="#35E06A"/></svg><span data-t="in.call"></span></div>
+    </div>
+    <h2 class="ls-h" style="margin-top:22px" data-t="in.h"></h2>
+    <p class="ls-sub" data-t="in.sub"></p>
+    <div class="ls-dots"><i class="on"></i><i></i><i></i></div>
+  </div>
+  <div class="scr-foot"><button class="ls-btn" data-go="goal" data-t="next"></button></div>
+</section>
+
+<!-- GOAL -->
+<section class="scr" data-id="goal">
+  <div class="scr-top"><button class="ls-back" data-back><svg width="10" height="17" viewBox="0 0 10 17" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 1 1.5 8.5 8.5 16"/></svg></button><div class="ls-prog"><i style="width:12%"></i></div></div>
+  <div class="scr-body">
+    <h2 class="ls-h" data-t="goal.h"></h2>
+    <div id="goalList"></div>
+  </div>
+  <div class="scr-foot"><p class="ls-helper" data-t="help"></p><button class="ls-btn" data-go="goalweight" data-t="next"></button></div>
+</section>
+
+<!-- GOAL WEIGHT -->
+<section class="scr" data-id="goalweight">
+  <div class="scr-top"><button class="ls-back" data-back><svg width="10" height="17" viewBox="0 0 10 17" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 1 1.5 8.5 8.5 16"/></svg></button><div class="ls-prog"><i style="width:60%"></i></div></div>
+  <div class="scr-body">
+    <h2 class="ls-h" data-t="gw.h"></h2>
+    <div class="ls-wheel"><div class="ls-wbar"></div>
+      <div class="ls-wcol" id="wG"></div><div class="ls-wcol" id="wD"></div><div class="ls-wcol" id="wU"></div>
+    </div>
+  </div>
+  <div class="scr-foot"><p class="ls-helper" data-t="help"></p><button class="ls-btn" data-go="challenge" data-t="next"></button></div>
+</section>
+
+<!-- CHALLENGES -->
+<section class="scr" data-id="challenge">
+  <div class="scr-top"><button class="ls-back" data-back><svg width="10" height="17" viewBox="0 0 10 17" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 1 1.5 8.5 8.5 16"/></svg></button><div class="ls-prog"><i style="width:70%"></i></div></div>
+  <div class="scr-body">
+    <h2 class="ls-h" data-t="ch.h"></h2>
+    <div id="chList"></div>
+  </div>
+  <div class="scr-foot"><p class="ls-helper" data-t="help"></p><button class="ls-btn" data-go="pace" data-t="next"></button></div>
+</section>
+
+<!-- PACE -->
+<section class="scr" data-id="pace">
+  <div class="scr-top"><button class="ls-back" data-back><svg width="10" height="17" viewBox="0 0 10 17" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 1 1.5 8.5 8.5 16"/></svg></button><div class="ls-prog"><i style="width:92%"></i></div></div>
+  <div class="scr-body dock">
+    <h2 class="ls-h" data-t="pace.h"></h2>
+    <div class="ls-pace">
+      <b id="paceVal"></b><span id="paceLbl"></span>
+      <input type="range" id="paceRange" min="0" max="3" step="1" value="3">
+    </div>
+    <div style="margin-top:auto"></div>
+  </div>
+  <div class="scr-foot"><p class="ls-helper" data-t="pace.help"></p><button class="ls-btn" data-go="loader" data-t="pace.cta"></button></div>
+</section>
+
+<!-- LOADER -->
+<section class="scr scr--load" data-id="loader" data-light="1">
+  <div class="scr-top bare"></div>
+  <div class="scr-body">
+    <div class="ls-pct" id="pct">0%</div>
+    <div class="ls-lines" id="loadLines"></div>
+  </div>
+  <div class="scr-foot"><div class="ls-loadfoot" data-t="load.foot"></div></div>
+</section>
+
+<!-- PAYOFF -->
+<section class="scr" data-id="payoff">
+  <div class="scr-top"><button class="ls-back" data-back><svg width="10" height="17" viewBox="0 0 10 17" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 1 1.5 8.5 8.5 16"/></svg></button><div class="ls-prog"><i style="width:100%"></i></div></div>
+  <div class="scr-body">
+    <div class="ls-chart">
+      <svg viewBox="0 0 300 120" preserveAspectRatio="none">
+        <path d="M0,14 C60,16 88,54 130,74 C170,93 220,100 300,102" fill="none" stroke="#35E06A" stroke-width="7" stroke-linecap="round"/>
+        <circle class="dotc" cx="196" cy="97" r="7"/>
+        <rect class="pillr" x="214" y="88" width="34" height="18" rx="9" stroke-width="2"/>
+      </svg>
+      <div class="ls-mo" id="chartMo"></div>
+    </div>
+    <div class="ls-kick" data-t="po.kgoal"></div>
+    <div class="ls-big" id="goalBig"></div>
+    <div><span class="ls-pill" data-t="po.pill"></span></div>
+    <div class="ls-kick" style="margin-top:20px" data-t="po.kplan"></div>
+    <h2 class="ls-h sm" style="margin:2px 0 0" id="payoffH"></h2>
+    <div class="ls-from">
+      <div class="ls-kick" style="margin-bottom:6px" data-t="po.from"></div>
+      <div class="ls-fy"><span data-t="po.r1"></span><b id="fyGoal"></b></div>
+      <div class="ls-fy"><span data-t="po.r2"></span><b id="fyW"></b></div>
+      <div class="ls-fy"><span data-t="po.r3"></span><b id="fyPace"></b></div>
+      <div class="ls-fy"><span data-t="po.r4"></span><b id="fyCh"></b></div>
+      <div class="ls-fy"><span data-t="po.r5"></span><b id="fyKcal"></b></div>
+    </div>
+  </div>
+  <div class="scr-foot"><button class="ls-btn" data-go="paywall" data-t="cont"></button></div>
+</section>
+
+<!-- PAYWALL -->
+<section class="scr" data-id="paywall">
+  <button class="ls-x" id="payClose" aria-label="Close"><svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 1l12 12M13 1L1 13"/></svg></button>
+  <div class="scr-top bare"></div>
+  <div class="scr-body" id="payBody" style="padding-bottom:4px">
+    <span class="ls-goalchip" id="payChip"></span>
+    <h2 class="ls-payh" id="payH"></h2>
+    <p class="ls-claim" data-th="pw.claim"></p>
+    <div class="ls-cmp">
+      <div class="ch"><div>&nbsp;</div><div data-t="pw.free"></div><div class="pr">Premium</div></div>
+      <div id="cmpRows"></div>
+    </div>
+    <div class="ls-award">
+      <img src="img/p-stretch.jpg" alt="">
+      <div class="ls-abar">
+        <div><svg width="13" height="16" viewBox="0 0 20 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M13 2C8 4 5 9 6 16c0 3 2 6 2 6"/><path d="M12 6c-3 0-5 2-5 5"/></svg><span data-th="pw.aotd"></span></div>
+        <div><svg width="13" height="16" viewBox="0 0 20 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M13 2C8 4 5 9 6 16c0 3 2 6 2 6"/><path d="M12 6c-3 0-5 2-5 5"/></svg><span data-th="pw.ec"></span></div>
+      </div>
+      <div class="ls-aq">
+        <p>“It’s so easy to use and I love that I can still eat the foods I love within reason.”</p>
+        <cite><span class="st">★★★★★</span> by Anabelle, US</cite>
+      </div>
+    </div>
+    <div class="ls-offbar" data-t="pw.off"></div>
+    <div class="ls-plans" id="planList">
+      <button class="ls-plan" data-v="1m"><div class="ls-pn" data-th="pl.1"></div><div class="pp">$7.49</div><div class="po">$14.99</div><div class="pm" data-th="pl.1m"></div></button>
+      <button class="ls-plan tall" data-v="12m"><span class="tag" data-t="pl.pop"></span><div class="ls-pn" data-th="pl.12"></div><div class="pp">$49.99</div><div class="po">$99.99</div><div class="pm" data-th="pl.12m"></div></button>
+      <button class="ls-plan" data-v="3m"><div class="ls-pn" data-th="pl.3"></div><div class="pp">$14.99</div><div class="po">$30.00</div><div class="pm" data-th="pl.3m"></div></button>
+    </div>
+  </div>
+  <div class="scr-foot">
+    <button class="ls-btn" id="payCta"></button>
+    <div class="ls-secured"><svg width="9" height="11" viewBox="0 0 12 14" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="6" width="10" height="7" rx="1.6"/><path d="M3.4 6V4a2.6 2.6 0 0 1 5.2 0v2"/></svg><span data-t="pw.sec"></span></div>
+    <div class="ls-legal"><span data-t="pw.rest"></span><span data-t="pw.code"></span></div>
+    <div class="ls-priv" data-t="pw.priv"></div>
+  </div>
+</section>
+
+<!-- OFFER ON CLOSE -->
+<section class="scr sheet" data-id="offer">
+  <button class="ls-x" id="offClose" aria-label="Close"><svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 1l12 12M13 1L1 13"/></svg></button>
+  <div class="scr-top bare"></div>
+  <div class="scr-body">
+    <span class="ls-goalchip"><i></i><span data-t="of.chip"></span></span>
+    <h2 class="ls-payh" data-t="of.h"></h2>
+    <p class="ls-claim" id="offSub"></p>
+    <div class="ls-tl">
+      <div class="ls-tr"><span class="nd"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke-width="4" stroke-linecap="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg></span><h5 data-t="of.t1"></h5><p id="offT1"></p></div>
+      <div class="ls-tr"><span class="nd"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke-width="4" stroke-linecap="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg></span><h5 data-t="of.t2"></h5><p data-t="of.t2p"></p></div>
+      <div class="ls-tr"><span class="nd grey"></span><h5 data-t="of.t3"></h5><p data-t="of.t3p"></p></div>
+    </div>
+    <div class="ls-obox">
+      <div class="k" data-t="of.k"></div>
+      <div class="pp">$49.99</div>
+      <div class="s" data-th="of.s"></div>
+    </div>
+  </div>
+  <div class="scr-foot">
+    <button class="ls-btn" id="offerCta" data-t="of.cta"></button>
+    <button class="ls-down" id="offDown" data-t="of.down"></button>
+    <div class="ls-secured" style="margin-top:8px"><svg width="9" height="11" viewBox="0 0 12 14" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="6" width="10" height="7" rx="1.6"/><path d="M3.4 6V4a2.6 2.6 0 0 1 5.2 0v2"/></svg><span data-t="of.sec"></span></div>
+  </div>
+</section>
+
+<!-- ACCOUNT, after the purchase -->
+<section class="scr" data-id="account">
+  <div class="scr-top bare"></div>
+  <div class="scr-body">
+    <h2 class="ls-h" style="margin-top:14px" data-t="ac.h"></h2>
+    <p class="ls-sub" data-t="ac.sub"></p>
+    <div class="ls-field"><label data-t="ac.name"></label><input value="Julia" readonly></div>
+    <div class="ls-field"><label data-t="ac.mail"></label><input value="julia@example.com" readonly></div>
+    <button class="ls-btn blk" data-go="health"><svg width="14" height="16" viewBox="0 0 16 19" fill="#fff"><path d="M13 10c0-2.2 1.8-3.3 1.9-3.4-1-1.5-2.7-1.7-3.3-1.7-1.4-.1-2.7.8-3.4.8-.7 0-1.8-.8-3-.8C3.7 5 2.2 5.9 1.4 7.3c-1.6 2.8-.4 7 1.1 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3 .7c1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.3-2.6 1.3-2.7 0 0-2.5-1-2.5-3.9ZM10.8 3.4c.6-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.2-.6 2.8-1.4Z"/></svg><span data-t="ac.apple"></span></button>
+    <button class="ls-btn out" data-go="health" data-t="ac.google"></button>
+  </div>
+  <div class="scr-foot"><p class="ls-fine" data-th="ac.fine"></p><button class="ls-btn" data-go="health" data-t="next"></button></div>
+</section>
+
+<!-- APPLE HEALTH, after the purchase -->
+<section class="scr" data-id="health">
+  <div class="scr-top bare"></div>
+  <div class="scr-body">
+    <div class="ls-field2" style="margin-top:14px">
+      <div class="ls-tiles">
+        <div class="ls-tile">❤️</div>
+        <div class="ls-tile grey"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0A3A2A" stroke-width="2" stroke-linecap="round"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 5v6h-6"/></svg></div>
+        <div class="ls-tile brand"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" fill="#35E06A"/></svg></div>
+      </div>
+    </div>
+    <h2 class="ls-h" data-t="he.h"></h2>
+    <p class="ls-sub" style="margin-top:-6px" data-t="he.sub"></p>
+  </div>
+  <div class="scr-foot"><button class="ls-btn" data-go="intro" data-t="he.cta"></button><button class="ls-btn ghost" data-go="intro" data-t="he.no"></button></div>
+</section>
+
+        </div>
+      </div>
+    </div>
+    <div class="demo-cap hidden" id="demoCap"><div class="bar"><i id="demoProg"></i></div><p id="demoTxt"></p><button id="demoStop">Stop</button></div>
+    <div class="chips" id="chips"></div>
+    <p class="chiphint">Jump to any screen — answers already filled in: lose weight · 57 → 50 kg · 1 kg a week.</p>
+    <div class="qr"><img src="img/qr.svg?v=1" alt="QR code for this prototype"><span><b>Open it on your phone</b>Scan to try the flow in your hand.</span></div>
+  </div>
+  <div class="panelcol"><div class="pn" id="panel"></div></div>
+</div>
+</div><!-- /view-proto -->
+
+<script>
+/* ================= copy, per language (phone screens only) ================= */
+var LANGS=['en','sv','de'];
+var LOC={en:'en-GB',sv:'sv-SE',de:'de-DE'};
+var T={
+ 'next':   ['Next','Nästa','Weiter'],
+ 'cont':   ['Continue','Fortsätt','Weiter'],
+ 'help':   ['This helps us personalize your daily recommendations','Det hjälper oss att anpassa dina dagliga rekommendationer','So können wir deine täglichen Empfehlungen personalisieren'],
+ 'in.call':['Great choice! This meal will give you steady energy throughout the day','Bra val! Den här måltiden ger dig jämn energi hela dagen','Gute Wahl! Diese Mahlzeit gibt dir den ganzen Tag gleichmäßig Energie'],
+ 'in.h':   ['Nutrition is your superpower for change','Maten är din superkraft för förändring','Ernährung ist deine Superkraft für Veränderung'],
+ 'in.sub': ['What you eat shapes your energy, mood, and how you show up every day.','Det du äter formar din energi, ditt humör och hur du tar dig an varje dag.','Was du isst, prägt deine Energie, deine Stimmung und wie du in jeden Tag gehst.'],
+ 'goal.h': ['What brings you here today?','Vad får dig att komma hit i dag?','Was führt dich heute hierher?'],
+ 'gw.h':   ['What is your goal weight?','Vad är din målvikt?','Was ist dein Zielgewicht?'],
+ 'ch.h':   ['What feels challenging about your eating habits?','Vad känns utmanande med dina matvanor?','Was fällt dir bei deinen Essgewohnheiten schwer?'],
+ 'pace.h': ['What pace works for you?','Vilken takt passar dig?','Welches Tempo passt zu dir?'],
+ 'pace.u': ['{v} kg/week','{v} kg/vecka','{v} kg/Woche'],
+ 'pace.help':['Faster results through structure and intention — you’re in charge of the pace.','Snabbare resultat genom struktur och avsikt – du bestämmer takten.','Schnellere Ergebnisse durch Struktur und Absicht – du bestimmst das Tempo.'],
+ 'pace.cta':['Build my plan','Skapa min plan','Meinen Plan erstellen'],
+ 'load.1': ['Goal set to <b>{x}</b>','Mål: <b>{x}</b>','Ziel: <b>{x}</b>'],
+ 'load.2': ['Target <b>{w}</b> at <b>{p}</b>','Målvikt <b>{w}</b> i takten <b>{p}</b>','Zielgewicht <b>{w}</b> bei <b>{p}</b>'],
+ 'load.3': ['Coaching tuned to <b>{x}</b>','Coachning inriktad på <b>{x}</b>','Coaching mit Fokus auf: <b>{x}</b>'],
+ 'load.4': ['Daily energy target <b>{k} kcal</b>','Dagligt energimål <b>{k} kcal</b>','Tägliches Energieziel <b>{k} kcal</b>'],
+ 'load.5': ['Goal date <b>{d}</b>','Måldatum <b>{d}</b>','Zieldatum <b>{d}</b>'],
+ 'load.foot':['Finalizing your plan','Din plan färdigställs','Dein Plan wird fertiggestellt'],
+ 'po.kgoal':['Your goal weight','Din målvikt','Dein Zielgewicht'],
+ 'po.pill':['You can do it!','Du klarar det!','Du schaffst das!'],
+ 'po.kplan':['Your personalized plan','Din personliga plan','Dein persönlicher Plan'],
+ 'po.h':   ['You will reach your goal by {d}','Du når ditt mål den {d}','Du erreichst dein Ziel am {d}'],
+ 'po.from':['Built from your answers','Byggd på dina svar','Aus deinen Antworten erstellt'],
+ 'po.r1':  ['Main goal','Huvudmål','Hauptziel'],
+ 'po.r2':  ['Now → target','Nu → mål','Jetzt → Ziel'],
+ 'po.r3':  ['Pace','Takt','Tempo'],
+ 'po.r4':  ['We’ll help most with','Vi hjälper dig mest med','Wir helfen vor allem bei'],
+ 'po.r5':  ['Daily target','Dagligt mål','Tagesziel'],
+ 'pw.h':   ['Reach {w} by {d} — and stay there','Nå {w} till {d} – och stanna där','Erreiche {w} bis {d} – und bleib dabei'],
+ 'pw.claim':['Be <b>5x more likely</b> to achieve lasting results with Premium.','Med Premium är det <b>5 gånger mer sannolikt</b> att du når varaktiga resultat.','Mit Premium erreichst du <b>5x eher</b> dauerhafte Ergebnisse.'],
+ 'pw.free':['Free','Gratis','Gratis'],
+ 'pw.aotd':['App of the day','Dagens app','App des Tages'],
+ 'pw.ec':  ['Editors’ choice','Redaktionens val','Empfehlung der Redaktion'],
+ 'pw.off': ['50% off Premium','50 % rabatt på Premium','50 % Rabatt auf Premium'],
+ 'pl.1':   ['1<br>month','1<br>månad','1<br>Monat'],
+ 'pl.12':  ['12<br>months','12<br>månader','12<br>Monate'],
+ 'pl.3':   ['3<br>months','3<br>månader','3<br>Monate'],
+ 'pl.pop': ['Most popular','Populärast','Beliebtester'],
+ 'pl.1m':  ['$7.49 / month<br>billed monthly','$7.49 / mån<br>faktureras månadsvis','$7.49 / Monat<br>monatlich'],
+ 'pl.12m': ['$4.16 / month<br>billed yearly','$4.16 / mån<br>faktureras årsvis','$4.16 / Monat<br>jährlich'],
+ 'pl.3m':  ['$5.00 / month<br>billed quarterly','$5.00 / mån<br>faktureras kvartalsvis','$5.00 / Monat<br>vierteljährlich'],
+ 'pw.cta': ['Continue — {p}','Fortsätt – {p}','Weiter – {p}'],
+ 'per.12m':[' / year',' / år',' / Jahr'], 'per.1m':[' / month',' / månad',' / Monat'], 'per.3m':[' / 3 months',' / 3 mån',' / 3 Monate'],
+ 'pw.sec': ['Secured with App Store. Auto-renewable billing. Cancel anytime. No hidden fees.','Säkrat via App Store. Förnyas automatiskt. Avsluta när du vill. Inga dolda avgifter.','Gesichert über den App Store. Verlängert sich automatisch. Jederzeit kündbar. Keine versteckten Kosten.'],
+ 'pw.rest':['Restore purchase','Återställ köp','Kauf wiederherstellen'],
+ 'pw.code':['Redeem code','Lös in kod','Code einlösen'],
+ 'pw.priv':['Privacy & Terms','Integritet och villkor','Datenschutz & AGB'],
+ 'of.chip':['Your plan is saved','Din plan är sparad','Dein Plan ist gespeichert'],
+ 'of.h':   ['Not ready to pay? Start the free trial instead.','Inte redo att betala? Börja med en gratis provperiod.','Noch nicht bereit? Starte stattdessen gratis.'],
+ 'of.sub': ['You’re {d} from {w}. Try the plan before you’re charged anything.','Du har {d} kvar till {w}. Testa planen innan du betalar något.','Dir fehlen noch {d} bis {w}. Teste den Plan, bevor du etwas zahlst.'],
+ 'of.t1':  ['Today — $0 charged','I dag – $0 debiteras','Heute – $0 berechnet'],
+ 'of.t1p': ['All of Premium unlocks: AI Smart Tracking, the barcode scanner, 1000+ recipes and your {k} kcal plan.','Hela Premium låses upp: AI Smart Tracking, streckkodsläsaren, 1000+ recept och din plan på {k} kcal.','Ganz Premium ist frei: AI Smart Tracking, Barcode-Scanner, 1000+ Rezepte und dein {k}-kcal-Plan.'],
+ 'of.t2':  ['Before your trial ends','Innan provperioden tar slut','Vor Ende der Testphase'],
+ 'of.t2p': ['Cancel in your App Store settings and you pay nothing.','Avsluta i dina App Store-inställningar så betalar du ingenting.','Kündige in deinen App-Store-Einstellungen und du zahlst nichts.'],
+ 'of.t3':  ['After the trial','Efter provperioden','Nach der Testphase'],
+ 'of.t3p': ['$49.99 for 12 months — $4.16 a month. Renews yearly, cancel anytime.','$49.99 för 12 månader – $4.16 i månaden. Förnyas årligen, avsluta när du vill.','$49.99 für 12 Monate – $4.16 im Monat. Jährliche Verlängerung, jederzeit kündbar.'],
+ 'of.k':   ['12 MONTHS · FREE TRIAL FIRST','12 MÅNADER · GRATIS PROVPERIOD FÖRST','12 MONATE · ZUERST GRATIS TESTEN'],
+ 'of.s':   ['$4.16 / month after the trial · <s>$99.99</s>','$4.16 / mån efter provperioden · <s>$99.99</s>','$4.16 / Monat nach der Testphase · <s>$99.99</s>'],
+ 'of.cta': ['Start my free trial','Starta min gratis provperiod','Gratis-Testphase starten'],
+ 'of.down':['Or just 1 month for $7.49','Eller bara 1 månad för $7.49','Oder nur 1 Monat für $7.49'],
+ 'of.sec': ['Secured with App Store. Cancel before the trial ends and you pay nothing.','Säkrat via App Store. Avsluta innan provperioden tar slut så betalar du ingenting.','Gesichert über den App Store. Vor Ende der Testphase kündigen und nichts zahlen.'],
+ 'ac.h':   ['Create your account','Skapa ditt konto','Erstelle dein Konto'],
+ 'ac.sub': ['Your plan is already built. This just saves it to your devices.','Din plan är redan klar. Det här sparar den bara på dina enheter.','Dein Plan ist schon fertig. Hier speicherst du ihn nur auf deinen Geräten.'],
+ 'ac.name':['First name','Förnamn','Vorname'],
+ 'ac.mail':['Email','E-post','E-Mail'],
+ 'ac.apple':['Continue with Apple','Fortsätt med Apple','Weiter mit Apple'],
+ 'ac.google':['Continue with Google','Fortsätt med Google','Weiter mit Google'],
+ 'ac.fine':['By continuing, you agree to Lifesum’s <u>Terms &amp; Conditions</u> and <u>Privacy Policy</u>.','Genom att fortsätta godkänner du Lifesums <u>villkor</u> och <u>integritetspolicy</u>.','Mit dem Fortfahren stimmst du den <u>AGB</u> und der <u>Datenschutzerklärung</u> von Lifesum zu.'],
+ 'he.h':   ['Connect Apple Health','Anslut Apple Hälsa','Mit Apple Health verbinden'],
+ 'he.sub': ['Sync your steps, exercise and weight with Lifesum automatically. Oura, Withings and Runkeeper connect through Health too.','Synka dina steg, din träning och din vikt med Lifesum automatiskt. Oura, Withings och Runkeeper ansluter också via Hälsa.','Synchronisiere Schritte, Training und Gewicht automatisch mit Lifesum. Oura, Withings und Runkeeper verbinden sich ebenfalls über Health.'],
+ 'he.cta': ['Connect','Anslut','Verbinden'],
+ 'he.no':  ['Not now','Inte nu','Später']
+};
+var GOALS=[
+ {k:'lose',  l:['Lose weight','Gå ner i vikt','Abnehmen']},
+ {k:'muscle',l:['Build muscle','Bygga muskler','Muskeln aufbauen']},
+ {k:'energy',l:['More energy','Mer energi','Mehr Energie']},
+ {k:'long',  l:['Longevity','Ett längre liv','Langlebigkeit']},
+ {k:'eat',   l:['Eat better','Äta bättre','Besser essen']},
+ {k:'glp',   l:['GLP-1 support','GLP-1-stöd','GLP-1-Unterstützung']}
+];
+var CHS=[
+ {k:'routine',l:['Keeping a routine','Att hålla en rutin','Eine Routine halten']},
+ {k:'plan',   l:['Planning what to eat','Att planera vad jag ska äta','Planen, was ich esse']},
+ {k:'crave',  l:['Managing cravings','Att hantera sug','Heißhunger im Griff behalten']},
+ {k:'amount', l:['Eating the right amount','Att äta lagom mycket','Die richtige Menge essen']},
+ {k:'recipe', l:['Finding recipe ideas','Att hitta receptidéer','Rezeptideen finden']},
+ {k:'choice', l:['Making good food choices','Att göra bra matval','Gute Entscheidungen beim Essen']},
+ {k:'support',l:['Feeling supported','Att känna mig stöttad','Mich unterstützt fühlen']}
+];
+var FEATS=[['Barcode scanner','Streckkodsläsare','Barcode-Scanner'],['AI Smart Tracking','AI Smart Tracking','AI Smart Tracking'],
+ ['1000+ Premium Recipes','1000+ premiumrecept','1000+ Premium-Rezepte'],['Adjust Your Macros & Calories','Justera makron och kalorier','Makros & Kalorien anpassen'],
+ ['Create Your Own Meals','Skapa egna måltider','Eigene Mahlzeiten erstellen']];
+var PACES=[{v:.25,l:['Gentle and steady','Lugnt och jämnt','Sanft und stetig']},{v:.5,l:['Sustainable','Hållbart','Nachhaltig']},
+ {v:.75,l:['Determined','Målmedvetet','Entschlossen']},{v:1,l:['Focused commitment','Fullt fokus','Voller Fokus']}];
+var PRICE={'12m':'$49.99','1m':'$7.49','3m':'$14.99'};
+var KCAL=1712; /* the daily target on Lifesum's own App Store screenshot */
+
+/* ================= state ================= */
+var S0={lang:'en',theme:'light'};
+function defaults(){ return {lang:S0.lang,theme:S0.theme,goal:'lose',weight:57,goalWeight:50,challenges:['plan','crave'],pace:1,plan:'12m'}; }
+var S=defaults();
+function L(){ return LANGS.indexOf(S.lang); }
+function t(k,v){ var s=(T[k]||[k])[L()]; if(v) Object.keys(v).forEach(function(x){ s=s.split('{'+x+'}').join(v[x]); }); return s; }
+function nf(n){ return new Intl.NumberFormat(LOC[S.lang]).format(n); }
+function kg(n){ return nf(n)+' kg'; }
+function byK(arr,k){ for(var i=0;i<arr.length;i++) if(arr[i].k===k) return arr[i]; return arr[0]; }
+function goalDate(){ var d=Math.max(0,S.weight-S.goalWeight), w=Math.max(1,Math.ceil(d/S.pace)); var x=new Date(); x.setDate(x.getDate()+w*7); return x; }
+function fdate(d,long){ return new Intl.DateTimeFormat(LOC[S.lang],{day:'numeric',month:long?'long':'short'}).format(d); }
+function chLabels(){ return CHS.filter(function(c){ return S.challenges.indexOf(c.k)>-1; }).map(function(c){ return c.l[L()]; }); }
+function lc(s){ return S.lang==='de' ? s : s.charAt(0).toLowerCase()+s.slice(1); }
+
+/* ================= builders (re-run on language change) ================= */
+var tk='<span class="ls-tk">✓</span>';
+function buildGoal(){ var g=document.getElementById('goalList'); g.innerHTML='';
+  GOALS.forEach(function(o){ var b=document.createElement('button'); b.className='ls-opt'; b.dataset.v=o.k; b.innerHTML=o.l[L()]+tk;
+    b.addEventListener('click',function(){ S.goal=o.k; syncScreen(); }); g.appendChild(b); }); }
+function buildCh(){ var g=document.getElementById('chList'); g.innerHTML='';
+  CHS.forEach(function(o){ var b=document.createElement('button'); b.className='ls-opt'; b.dataset.v=o.k; b.innerHTML=o.l[L()]+tk;
+    b.addEventListener('click',function(){ var i=S.challenges.indexOf(o.k); if(i>-1) S.challenges.splice(i,1); else S.challenges.push(o.k); syncScreen(); });
+    g.appendChild(b); }); }
+function buildCmp(){ var ck='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg>';
+  document.getElementById('cmpRows').innerHTML=FEATS.map(function(f){ return '<div class="cr"><div>'+f[L()]+'</div><div>—</div><div class="pr">'+ck+'</div></div>'; }).join(''); }
+function applyStatic(){
+  document.documentElement.lang=S.lang;
+  document.querySelectorAll('[data-t]').forEach(function(el){ el.textContent=t(el.dataset.t); });
+  document.querySelectorAll('[data-th]').forEach(function(el){ el.innerHTML=t(el.dataset.th); });
+  buildGoal(); buildCh(); buildCmp();
+}
+
+/* wheel picker — their three-column control, real scroll-snap */
+var IH=38, wG=document.getElementById('wG'), WMIN=40, WMAX=150;
+function fillCol(col,items){ col.innerHTML='<div class="ls-sp"></div>'+items.map(function(v){ return '<div class="ls-wi">'+v+'</div>'; }).join('')+'<div class="ls-sp"></div>'; }
+function paintCol(col){ var i=Math.round(col.scrollTop/IH); col.querySelectorAll('.ls-wi').forEach(function(k,j){ var d=Math.abs(j-i); k.className='ls-wi'+(d===0?' d0':d===1?' d1':''); }); return i; }
+(function(){ var a=[]; for(var v=WMIN; v<=WMAX; v++) a.push(v); fillCol(wG,a);
+  fillCol(document.getElementById('wD'),['0',',1',',2',',3',',4',',5',',6',',7',',8',',9']);
+  fillCol(document.getElementById('wU'),['kg','lbs','st/lbs']); })();
+[document.getElementById('wD'),document.getElementById('wU')].forEach(function(c){ c.addEventListener('scroll',function(){ paintCol(c); }); paintCol(c); });
+var wTimer=null;
+wG.addEventListener('scroll',function(){ var i=paintCol(wG); clearTimeout(wTimer);
+  wTimer=setTimeout(function(){ var v=Math.min(WMAX,WMIN+i); if(v!==S.goalWeight){ S.goalWeight=v; syncScreen(true); } },110); });
+function setWheel(){ wG.scrollTop=(S.goalWeight-WMIN)*IH; paintCol(wG); }
+
+var pr=document.getElementById('paceRange');
+pr.addEventListener('input',function(){ S.pace=PACES[+pr.value].v; syncScreen(); });
+
+/* ================= everything downstream reads S ================= */
+function syncScreen(fromWheel){
+  var li=L(), gd=goalDate(), gap=Math.max(0,S.weight-S.goalWeight), g=byK(GOALS,S.goal).l[li], chs=chLabels();
+  document.querySelectorAll('#goalList .ls-opt').forEach(function(b){ b.classList.toggle('on',b.dataset.v===S.goal); });
+  document.querySelectorAll('#chList .ls-opt').forEach(function(b){ b.classList.toggle('on',S.challenges.indexOf(b.dataset.v)>-1); });
+  if(!fromWheel) setWheel();
+  var pi=0; PACES.forEach(function(p,i){ if(p.v===S.pace) pi=i; }); pr.value=pi;
+  var paceTxt=t('pace.u',{v:nf(S.pace)});
+  document.getElementById('paceVal').textContent=paceTxt;
+  document.getElementById('paceLbl').textContent=PACES[pi].l[li];
+
+  /* payoff */
+  var mo=[]; for(var i=0;i<3;i++){ var x=new Date(); x.setDate(1); x.setMonth(x.getMonth()+i); mo.push('<span>'+new Intl.DateTimeFormat(LOC[S.lang],{month:'short'}).format(x)+'</span>'); }
+  document.getElementById('chartMo').innerHTML=mo.join('');
+  document.getElementById('goalBig').textContent=kg(S.goalWeight);
+  document.getElementById('payoffH').textContent=t('po.h',{d:fdate(gd,true)});
+  document.getElementById('fyGoal').textContent=g;
+  document.getElementById('fyW').textContent=kg(S.weight)+' → '+kg(S.goalWeight);
+  document.getElementById('fyPace').textContent=paceTxt;
+  document.getElementById('fyCh').textContent=chs.length?chs.slice(0,2).join(', '):'—';
+  document.getElementById('fyKcal').textContent=nf(KCAL)+' kcal';
+
+  /* paywall */
+  document.getElementById('payChip').innerHTML='<i></i>'+g+' · '+kg(S.weight)+' → '+kg(S.goalWeight);
+  document.getElementById('payH').textContent=t('pw.h',{w:kg(S.goalWeight),d:fdate(gd,false)});
+  document.querySelectorAll('#planList .ls-plan').forEach(function(b){ b.classList.toggle('on',b.dataset.v===S.plan); });
+  document.getElementById('payCta').textContent=t('pw.cta',{p:PRICE[S.plan]+t('per.'+S.plan)});
+
+  /* offer */
+  document.getElementById('offSub').textContent=t('of.sub',{d:kg(gap),w:kg(S.goalWeight)});
+  document.getElementById('offT1').textContent=t('of.t1p',{k:nf(KCAL)});
+}
+
+/* ================= router ================= */
+var ORDER=['intro','goal','goalweight','challenge','pace','loader','payoff','paywall','offer','account','health'];
+var LABEL={intro:'Intro',goal:'Goal',goalweight:'Goal weight',challenge:'Challenges',pace:'Pace',loader:'Loader',payoff:'Your plan',paywall:'Paywall',offer:'Offer on close',account:'Account',health:'Apple Health'};
+var scr={}, hist=[], cur='intro', loadTimers=[];
+document.querySelectorAll('.scr').forEach(function(s){ scr[s.dataset.id]=s; });
+
+function chrome(){ var dark=S.theme==='dark', l=dark || !!scr[cur].dataset.light;
+  document.getElementById('sbar').classList.toggle('light',l); document.getElementById('homebar').classList.toggle('light',l); }
+function enter(id){ chrome(); paintChips(); paintPanel(); clearLoad();
+  var b=scr[id].querySelector('.scr-body'); if(b) b.scrollTop=0;
+  if(id==='loader') runLoader(); if(id==='goalweight') requestAnimationFrame(setWheel); }
+function go(id,opts){
+  opts=opts||{}; if(id===cur) return;
+  var from=scr[cur], to=scr[id];
+  if(id==='intro'){ jump('intro'); return; }
+  if(!opts.back) hist.push(cur);
+  if(from){ from.classList.remove('is-active');
+    if(!to.classList.contains('sheet') && !from.classList.contains('sheet')) from.classList.add('is-past'); }
+  Object.keys(scr).forEach(function(k){ if(k!==id&&k!==cur) scr[k].classList.remove('is-active'); });
+  if(from && from.classList.contains('sheet')) scr.paywall.classList.remove('is-active');
+  to.classList.remove('is-past'); to.classList.add('is-active');
+  cur=id; enter(id);
+}
+function back(){
+  if(!hist.length) return;
+  var prev=hist.pop();
+  scr[cur].classList.remove('is-active');
+  scr[prev].classList.remove('is-past'); scr[prev].classList.add('is-active');
+  cur=prev; enter(prev);
+}
+function jump(id){
+  var i=ORDER.indexOf(id);
+  Object.keys(scr).forEach(function(k){ scr[k].classList.add('nofx'); scr[k].classList.remove('is-active','is-past'); });
+  hist=ORDER.slice(0,i<0?0:i).filter(function(k){ return k!=='offer'; });
+  if(id==='offer') scr.paywall.classList.add('is-active');
+  scr[id].classList.add('is-active'); cur=id;
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){
+    Object.keys(scr).forEach(function(k){ scr[k].classList.remove('nofx'); }); }); });
+  syncScreen(); enter(id);
+}
+var chipsBuilt=false;
+function paintChips(){
+  var c=document.getElementById('chips');
+  if(!chipsBuilt){ chipsBuilt=true;
+    ORDER.forEach(function(id){ var b=document.createElement('button'); b.className='chip'+(id==='offer'?' offer':''); b.textContent=LABEL[id];
+      b.dataset.id=id; b.onclick=function(){ stopDemo(); jump(id); }; c.appendChild(b); }); }
+  c.querySelectorAll('.chip').forEach(function(b){ b.classList.toggle('on',b.dataset.id===cur); });
+}
+
+/* loader — visibly consumes the answers */
+function clearLoad(){ loadTimers.forEach(function(x){ clearTimeout(x); clearInterval(x); }); loadTimers=[]; }
+function runLoader(){
+  var k=demo.on?0.8:1, chs=chLabels();
+  var lines=[t('load.1',{x:byK(GOALS,S.goal).l[L()]}), t('load.2',{w:kg(S.goalWeight),p:t('pace.u',{v:nf(S.pace)})}),
+    t('load.3',{x:lc(chs[0]||CHS[1].l[L()])}), t('load.4',{k:nf(KCAL)}), t('load.5',{d:fdate(goalDate(),false)})];
+  var ck='<span class="ck"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#0A3A2A" stroke-width="4" stroke-linecap="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg></span>';
+  var host=document.getElementById('loadLines'); host.innerHTML=lines.map(function(x){ return '<div class="ls-ll">'+ck+'<span>'+x+'</span></div>'; }).join('');
+  var kids=host.querySelectorAll('.ls-ll'), pct=document.getElementById('pct'), n=0; pct.textContent='0%';
+  var iv=setInterval(function(){
+    n+=2; if(n>100){ clearInterval(iv); loadTimers.push(setTimeout(function(){ if(cur==='loader') go('payoff'); },600*k)); return; }
+    pct.textContent=n+'%'; var m=Math.floor(n/100*(kids.length+.001));
+    for(var i=0;i<m&&i<kids.length;i++) kids[i].classList.add('on');
+  },46*k);
+  loadTimers.push(iv);
+}
+
+/* ================= wiring ================= */
+document.querySelectorAll('[data-go]').forEach(function(b){ b.addEventListener('click',function(){ go(b.dataset.go); }); });
+document.querySelectorAll('[data-back]').forEach(function(b){ b.addEventListener('click',back); });
+document.querySelectorAll('#planList .ls-plan').forEach(function(b){ b.addEventListener('click',function(){ S.plan=b.dataset.v; syncScreen(); }); });
+document.getElementById('payClose').addEventListener('click',function(){ go('offer'); });
+document.getElementById('payCta').addEventListener('click',function(){ go('account'); });
+['offClose','offerCta','offDown'].forEach(function(id){ document.getElementById(id).addEventListener('click',function(){ go('account'); }); });
+
+function setSeg(id,attr,val){ document.querySelectorAll('#'+id+' button').forEach(function(b){ b.classList.toggle('on',b.dataset[attr]===val); }); }
+function setLang(l){ S.lang=l; S0.lang=l; setSeg('segLang','lang',l); applyStatic(); syncScreen(); paintPanel(); }
+function setTheme(th){ S.theme=th; S0.theme=th; document.getElementById('phoneIn').classList.toggle('dark',th==='dark'); setSeg('segTheme','theme',th); chrome(); }
+document.querySelectorAll('#segLang button').forEach(function(b){ b.addEventListener('click',function(){ stopDemo(); setLang(b.dataset.lang); }); });
+document.querySelectorAll('#segTheme button').forEach(function(b){ b.addEventListener('click',function(){ setTheme(b.dataset.theme); }); });
+
+/* ================= the 30-second walkthrough ================= */
+var demo={tok:0,on:false,t0:0,iv:null}, finger=document.getElementById('finger'), phoneIn=document.getElementById('phoneIn');
+function W(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }
+function cap(txt){ document.getElementById('demoTxt').textContent=txt; }
+async function tap(sel,tok){
+  if(demo.tok!==tok) throw 0;
+  var el=document.querySelector(sel); if(!el) return;
+  var r=el.getBoundingClientRect(), p=phoneIn.getBoundingClientRect(), z=p.width/phoneIn.offsetWidth||1;
+  finger.style.left=((r.left-p.left+r.width/2)/z)+'px'; finger.style.top=((r.top-p.top+r.height/2)/z)+'px';
+  finger.classList.add('show'); await W(380); if(demo.tok!==tok) throw 0;
+  finger.classList.add('press'); await W(120); finger.classList.remove('press'); el.click(); await W(160);
+  if(demo.tok!==tok) throw 0;
+}
+async function pause(ms,tok){ await W(ms); if(demo.tok!==tok) throw 0; }
+async function until(id,tok){ while(cur!==id){ await pause(80,tok); } }
+function startDemo(){
+  stopDemo(); var tok=++demo.tok; demo.on=true; demo.t0=Date.now();
+  S=defaults(); S.goal='eat';
+  applyStatic(); jump('intro');
+  document.getElementById('demoCap').classList.remove('hidden');
+  demo.iv=setInterval(function(){ document.getElementById('demoProg').style.width=Math.min(100,(Date.now()-demo.t0)/290)+'%'; },200);
+  (async function(){
+    try{
+      cap('Your intro, untouched. The questions come next.'); await pause(1300,tok);
+      await tap('[data-id=intro] .ls-btn',tok);
+      cap('What brings them here. Say, losing weight.'); await pause(600,tok);
+      await tap('#goalList [data-v=lose]',tok); await pause(350,tok); await tap('[data-id=goal] .scr-foot .ls-btn',tok);
+      cap('Your wheel picker. Goal weight: 52 kg.'); await pause(450,tok);
+      wG.scrollTo({top:(52-WMIN)*IH,behavior:'smooth'}); await pause(900,tok);
+      S.goalWeight=52; setWheel(); syncScreen(true);
+      await tap('[data-id=goalweight] .scr-foot .ls-btn',tok);
+      cap('What they find hard. Keeping a routine.'); await pause(450,tok);
+      await tap('#chList [data-v=routine]',tok); await pause(350,tok); await tap('[data-id=challenge] .scr-foot .ls-btn',tok);
+      cap('Their pace: half a kilo a week.'); await pause(500,tok);
+      S.pace=.5; syncScreen(); await pause(600,tok);
+      await tap('[data-id=pace] .scr-foot .ls-btn',tok);
+      cap('Idea 05: the loader reads their answers back.'); await until('payoff',tok);
+      cap('Idea 02: the plan comes before any sign-up.'); await pause(1900,tok);
+      await tap('[data-id=payoff] .scr-foot .ls-btn',tok);
+      cap('Idea 03: the headline names their target and date.'); await pause(1700,tok);
+      await tap('#planList [data-v="1m"]',tok); await pause(500,tok); await tap('#planList [data-v="12m"]',tok); await pause(400,tok);
+      cap('Idea 01: they close it, and get the free trial on the same year.'); await tap('#payClose',tok); await pause(2300,tok);
+      cap('That is the flow. Account and Apple Health follow the purchase.');
+      finger.classList.remove('show'); await pause(2000,tok); stopDemo();
+    }catch(e){ if(e!==0){ console.error(e); stopDemo(); } }
+  })();
+}
+function stopDemo(){ if(!demo.on) return; demo.tok++; demo.on=false; clearInterval(demo.iv); finger.classList.remove('show','press');
+  document.getElementById('demoCap').classList.add('hidden'); }
+document.getElementById('demoBtn').addEventListener('click',startDemo);
+document.getElementById('demoStop').addEventListener('click',stopDemo);
+phoneIn.addEventListener('pointerdown',function(e){ if(e.isTrusted && demo.on) stopDemo(); });
+</script>
+<script>
+/* ---- the short panel: hypothesis + potential outcome, nothing else ---- */
+var PANEL={
+intro:{ctx:true,t:'Nutrition is your superpower',
+ kept:'Your intro, untouched: the photo card, the green lightning tile, the coaching callout and the pager. The second intro, the proof screen and Consent Level 1 follow it in your order and stay as they are.'},
+goal:{ctx:true,t:'What brings you here today?',
+ kept:'Your options in your order, on your white rows with the green fill. The answer is read back on the loader, the plan and the paywall.'},
+goalweight:{ctx:true,t:'What is your goal weight?',
+ kept:'Your three-column wheel, working. Scroll it and the date on the plan and the paywall moves. Gender, birth date, height and current weight come before it, unchanged.'},
+challenge:{ctx:true,t:'What feels challenging?',
+ kept:'All seven options, word for word. The first one picked is named on the loader and listed on the plan.'},
+pace:{ctx:true,t:'What pace works for you?',
+ kept:'Your pace slider and Build my plan. Move it and the goal date downstream is recalculated.'},
+loader:{n:5,t:'Let the loader read their answers back',
+ hyp:'Try ticking off their goal, target, pace and hardest habit while the percentage climbs, <b>because a wait only feels worth it when people can see it working on what they just told you</b>.',
+ kept:'Your forest-green full bleed, the big neon percentage and “Finalizing your plan” at the foot.',
+ out:'CR +10–15%'},
+payoff:{n:2,t:'Show the plan before asking for an account',
+ hyp:'Try this screen straight after the loader, <b>because today “Your personalized plan is ready” is followed by a sign-up wall, so people hand over an email before they see what they built</b>.',
+ kept:'Your goal-line chart, the goal-weight numeral, the “You can do it!” pill and the goal-date line. The date is kilos to go divided by their pace.',
+ out:'CR +8% · ARPU +17%'},
+paywall:{n:3,t:'Put their goal and date in the paywall headline',
+ hyp:'Try naming the target weight and the date in the headline, <b>because the flow collects both and the paywall today says nothing about either</b>. Go back and change the goal weight, and the headline follows.',
+ kept:'Your Free vs Premium table and its five rows, the award band with Anabelle’s quote, “50% off Premium”, all three plans with their strikethroughs, and the footer.',
+ out:'CR +15–20%'},
+offer:{n:1,t:'Offer the free trial when they close the paywall',
+ hyp:'Try the free trial here, on the same $49.99 year, <b>because Apple lists all three Premium plans with a trial and none of your onboarding screens offers one</b>. Nothing is discounted and nothing new is priced.',
+ kept:'Your cream, your green button, your plan card and your secured line. The timeline leaves the trial length to you.',
+ out:'ARPU +10–15%'},
+account:{n:2,t:'Show the plan before asking for an account',
+ hyp:'Try the account here, after the purchase, <b>because by now the plan exists and they have paid, so signing up saves their work instead of standing in front of it</b>.',
+ kept:'Your fields, the Apple and Google buttons and the terms line.',
+ out:'CR +8% · ARPU +17%'},
+health:{n:4,t:'Ask for Apple Health after the purchase',
+ hyp:'Try the Health prompt here, <b>because at step six the iOS permission sheet pulls people out of the flow before they have seen anything worth syncing</b>.',
+ kept:'Your soft prompt: the green field, the three tiles and Connect. The iOS sheet that follows is Apple’s and stays as it is.',
+ out:'CR +10–15%'}
+};
+function outBlock(v){ return '<div class="pn-out"><div class="lab">Potential outcome · based on Adapty data</div><div class="v">'+v+'</div></div>'; }
+function paintPanel(){
+  var d=PANEL[cur]; if(!d) return; var h='';
+  if(d.ctx){
+    h+='<div class="pn-n ctx">Context · no change proposed</div><h3 class="pn-t">'+d.t+'</h3><div class="pn-kept">'+d.kept+'</div>';
+  } else {
+    h+='<div class="pn-n">Idea '+d.n+' of 5</div><h3 class="pn-t">'+d.t+'</h3><p class="pn-hyp">'+d.hyp+'</p>'+outBlock(d.out)
+      +'<div class="pn-kept"><b>Your design, unchanged.</b> '+d.kept+'</div>';
+  }
+  if(S.lang!=='en') h+='<div class="pn-kept"><b>Language.</b> Screens are shown in '+(S.lang==='sv'?'Swedish':'German')+', translated by us, to show one flow serving every market. Store prices stay as published on the US App Store; Anabelle’s quote stays verbatim.</div>';
+  h+='<div class="pn-foot">Ranges are Adapty’s expected effect from tests across 30,000+ subscription apps — not measured lift for Lifesum. Prices, ratings, quotes and feature lines come from your own published material.</div>';
+  document.getElementById('panel').innerHTML=h;
+}
+
+/* ---- views, jumps from the overview ---- */
+function showView(v){
+  if(v!=='proto') stopDemo();
+  document.querySelectorAll('.view').forEach(function(x){ x.classList.remove('on'); });
+  document.getElementById('view-'+v).classList.add('on');
+  document.querySelectorAll('.nav-links button[data-view]').forEach(function(b){ b.classList.toggle('on',b.dataset.view===v); });
+  window.scrollTo(0,0);
+  if(v==='proto' && cur==='goalweight') requestAnimationFrame(setWheel);
+}
+document.querySelectorAll('[data-view]').forEach(function(b){ b.addEventListener('click',function(){ showView(b.dataset.view); }); });
+document.querySelectorAll('.idea[data-jump]').forEach(function(b){ b.addEventListener('click',function(){ showView('proto'); jump(b.dataset.jump); }); });
+document.querySelectorAll('[data-demo]').forEach(function(b){ b.addEventListener('click',function(){ showView('proto'); startDemo(); }); });
+
+applyStatic();
+scr.intro.classList.add('is-active');
+syncScreen(); chrome(); paintChips(); paintPanel();
+if(/[?&]open=proto/.test(location.search)) showView('proto');
+</script>
+</body>
+</html>
